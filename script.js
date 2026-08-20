@@ -1,19 +1,34 @@
 const products={
-  "AE-M001":{name:"Urban Flame Oversized Tee",price:499,category:"MEN · OVERSIZED TEE",description:"A bold oversized streetwear tee with statement flame graphics and a relaxed everyday fit.",variants:[{colour:"White",sizes:["M","L","XL"],images:[]},{colour:"Black",sizes:["S","M","L","XL"],images:[]}]},
-  "AE-M002":{name:"Shadow Bunny Oversized Tee",price:499,category:"MEN · OVERSIZED TEE",description:"A black oversized tee with a statement bunny-inspired graphic and an easy streetwear silhouette.",variants:[{colour:"Black",sizes:["S","M","L","XL"],images:[]}]},
-  "AE-M003":{name:"Taurus Oversized Graphic Tee",price:499,category:"MEN · OVERSIZED TEE",description:"A powerful black oversized tee featuring a Taurus-inspired bull graphic with green accents.",variants:[{colour:"Black",sizes:["S","M","L","XL"],images:[]}]},
-  "AE-M004":{name:"Heaven Made Oversized Tee",price:499,category:"MEN · OVERSIZED TEE",description:"A black oversized streetwear tee with gothic-inspired typography and statement artwork.",variants:[{colour:"Black",sizes:["S","M","L","XL"],images:[]}]},
-  "AE-M005":{name:"Purple Chaos Oversized Tee",price:699,category:"MEN · OVERSIZED TEE",description:"A premium beige oversized tee with a striking purple statement graphic.",variants:[{colour:"Beige / Cream",sizes:["M","L","XL"],images:[]}]},
+  "AE-M001":{name:"Urban Wolf Oversized Tee",price:499,category:"MEN · OVERSIZED TEE",description:"Relaxed streetwear meets statement style. An oversized graphic tee designed for everyday casual looks.",variants:[{colour:"Black",sizes:["S","M","L","XL","XXL"],images:["assets/products/AE-M001-Urban-Wolf.png"]}]},
+  "AE-M002":{name:"Essential Oversized Tee",price:499,category:"MEN · OVERSIZED TEE",description:"A clean oversized essential built for effortless everyday outfits.",variants:[{colour:"White",sizes:["S","M","L","XL","XXL"],images:["assets/products/AE-M002-Essential.png"]}]},
+  "AE-M003":{name:"Street Print Oversized Tee",price:549,category:"MEN · OVERSIZED TEE",description:"A bold printed oversized tee created for streetwear-inspired outfits.",variants:[{colour:"Charcoal",sizes:["S","M","L","XL","XXL"],images:["assets/products/AE-M003-Street-Print.png"]}]},
+  "AE-M004":{name:"Heaven Made Oversized Tee",price:499,category:"MEN · OVERSIZED TEE",description:"A black oversized streetwear tee with gothic-inspired typography and statement artwork.",variants:[{colour:"Black",sizes:["S","M","L","XL"],images:["assets/products/AE-M004-1.png","assets/products/AE-M004-2.png","assets/products/AE-M004-3.png"]}]},
+  "AE-M005":{name:"Purple Chaos Oversized Tee",price:699,category:"MEN · OVERSIZED TEE",description:"A premium beige oversized tee with a striking purple statement graphic.",variants:[{colour:"Beige / Cream",sizes:["M","L","XL"],images:["assets/products/AE-M005-1.png","assets/products/AE-M005-2.png","assets/products/AE-M005-3.png"]}]},
   "AE-M006":{name:"Heritage Premium Polo",price:899,category:"MEN · PREMIUM POLO",description:"ATTITUDE EMPIRE's No. 1 premium pick: a refined, relaxed polo with vintage-inspired streetwear character.",variants:[
-    {colour:"Chocolate Brown / Cream",sizes:["M","L","XL"],images:[]},{colour:"White / Navy",sizes:["XL"],images:[]},{colour:"Black",sizes:["S","L","XL"],images:[]},{colour:"Beige / Brown",sizes:["S","M","L","XL","XXL"],images:[]},{colour:"Navy Blue / White",sizes:["S","L"],images:[]}
+    {colour:"Chocolate Brown / Cream",sizes:["M","L","XL"],images:["assets/products/AE-M006-brown-1.png","assets/products/AE-M006-brown-2.png","assets/products/AE-M006-brown-3.png","assets/products/AE-M006-brown-4.png"]},
+    {colour:"White / Navy",sizes:["XL"],images:["assets/products/AE-M006-white-1.png","assets/products/AE-M006-white-2.png","assets/products/AE-M006-white-3.png","assets/products/AE-M006-white-4.png"]},
+    {colour:"Black",sizes:["S","L","XL"],images:["assets/products/AE-M006-black-1.png","assets/products/AE-M006-black-2.png","assets/products/AE-M006-black-3.png","assets/products/AE-M006-black-4.png"]},
+    {colour:"Beige / Brown",sizes:["S","M","L","XL","XXL"],images:["assets/products/AE-M006-beige-1.png","assets/products/AE-M006-beige-2.png","assets/products/AE-M006-beige-3.png","assets/products/AE-M006-beige-4.png"]},
+    {colour:"Navy Blue / White",sizes:["S","L"],images:["assets/products/AE-M006-navy-1.png","assets/products/AE-M006-navy-2.png","assets/products/AE-M006-navy-3.png","assets/products/AE-M006-navy-4.png"]}
   ]},
-  "AE-M007":{name:"Retro Stripe Knit Polo",price:699,category:"MEN · KNIT POLO",description:"A retro-inspired relaxed polo with bold cream and brown vertical stripes over a black base.",variants:[{colour:"Black / Cream / Brown",sizes:["S","M","L","XL","XXL"],images:[]}]},
+  "AE-M007":{name:"Retro Stripe Knit Polo",price:699,category:"MEN · KNIT POLO",description:"A retro-inspired relaxed polo with bold cream and brown vertical stripes over a black base.",variants:[{colour:"Black / Cream / Brown",sizes:["S","M","L","XL","XXL"],images:["assets/products/AE-M007-1.png","assets/products/AE-M007-2.png","assets/products/AE-M007-3.png","assets/products/AE-M007-4.png"]}]},
   "AE-M008":{name:"Midnight Flow Dress",price:799,category:"WOMEN · DRESS",description:"An elegant statement dress with a clean upper silhouette and flowing layered design.",variants:[{colour:"Black",sizes:["S","M","L","XL"],images:["assets/ae-m008-black-1.png","assets/ae-m008-black-2.png"]},{colour:"Blush Pink",sizes:["S","M","L","XL"],images:["assets/ae-m008-blush-1.png"]}]},
   "AE-M009":{name:"Lavender Luxe Co-ord Set",price:699,category:"WOMEN · CO-ORD SET",description:"A sophisticated lavender co-ord with a relaxed collared top and matching trousers.",variants:[{colour:"Lavender / Lilac",sizes:["S","M"],images:["assets/ae-m009-1.png","assets/ae-m009-2.png","assets/ae-m009-3.png"]}]},
   "AE-M010":{name:"Mocha Elegance Co-ord Set",price:699,category:"WOMEN · CO-ORD SET",description:"A polished chocolate-brown co-ord featuring a flowing statement top and matching trousers.",variants:[{colour:"Chocolate Brown / Mocha",sizes:["S","M","L","XL"],images:["assets/ae-m010-1.png","assets/ae-m010-2.png","assets/ae-m010-3.png","assets/ae-m010-4.png"]}]}
 };
 let cart=[],activeProduct=null,activeVariant=0,activeSize="";
 const cartDrawer=document.getElementById("cartDrawer"),overlay=document.getElementById("overlay"),cartItems=document.getElementById("cartItems"),cartCount=document.getElementById("cartCount"),cartTotal=document.getElementById("cartTotal"),searchPanel=document.getElementById("searchPanel"),searchInput=document.getElementById("searchInput"),mobileMenu=document.getElementById("mobileMenu"),productModal=document.getElementById("productModal");
+
+// Replace catalog placeholders with the first real product image and sync names/prices.
+Object.entries(products).forEach(([id,product])=>{
+  const button=document.querySelector('[data-product-id="'+id+'"]');
+  if(!button)return;
+  const card=button.closest('.product-card'),imageWrap=button.closest('.product-image'),placeholder=imageWrap.querySelector('.product-placeholder');
+  const src=product.variants[0].images[0];
+  if(src){const img=document.createElement('img');img.className='product-photo';img.src=src;img.alt=product.name; if(placeholder)placeholder.replaceWith(img);}
+  const title=card.querySelector('h3'),price=card.querySelector('.product-info p strong');
+  if(title)title.textContent=product.name;if(price)price.textContent='₹'+product.price.toLocaleString('en-IN');
+});
 function openCart(){cartDrawer.classList.add("active");overlay.classList.add("active")}
 function closeLayers(){cartDrawer.classList.remove("active");productModal.classList.remove("active");overlay.classList.remove("active")}
 document.getElementById("cartBtn").addEventListener("click",openCart);
@@ -36,4 +51,3 @@ document.querySelectorAll(".mobile-menu a").forEach(link=>link.addEventListener(
 document.getElementById("newsletterForm").addEventListener("submit",function(event){event.preventDefault();alert("Welcome to ATTITUDE EMPIRE!");this.reset()});
 document.getElementById("checkoutBtn").addEventListener("click",()=>{if(!cart.length){alert("Your cart is empty.");return}alert("Checkout and secure online payment will be connected in the next stage.")});
 updateCart();
-
