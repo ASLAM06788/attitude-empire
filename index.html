@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATTITUDE EMPIRE | Wear Your Attitude</title>
+  <meta name="description" content="ATTITUDE EMPIRE - Premium streetwear designed for those who don't follow the crowd.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="announcement">FREE SHIPPING ON ORDERS ABOVE ₹999</div>
+
+  <header class="navbar">
+    <a href="#home" class="logo">ATTITUDE<span>EMPIRE</span></a>
+    <nav class="desktop-nav">
+      <a href="#home">HOME</a>
+      <a href="#shop">SHOP</a>
+      <a href="#new">NEW ARRIVALS</a>
+      <a href="#about">ABOUT</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="searchBtn" aria-label="Search">⌕</button>
+      <button aria-label="Wishlist">♡</button>
+      <button id="cartBtn" aria-label="Cart">🛒 <span id="cartCount">0</span></button>
+      <button id="menuBtn" class="mobile-menu-btn" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="#home">HOME</a><a href="#shop">SHOP</a><a href="#new">NEW ARRIVALS</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a>
+  </div>
+
+  <div id="searchPanel" class="search-panel">
+    <input type="text" id="searchInput" placeholder="Search products...">
+    <button id="closeSearch">✕</button>
+  </div>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">THE NEW STREETWEAR ERA</p>
+        <h1>WEAR YOUR<br><span>ATTITUDE.</span></h1>
+        <p class="hero-description">Streetwear designed for people who don't follow the crowd.</p>
+        <div class="hero-buttons">
+          <a href="#shop" class="btn btn-dark">SHOP NOW</a>
+          <a href="#new" class="btn btn-outline">NEW ARRIVALS</a>
+        </div>
+      </div>
+      <div class="hero-image"><div class="hero-placeholder"><span>ATTITUDE</span><strong>EMPIRE</strong></div></div>
+    </section>
+
+    <section id="shop" class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE LATEST DROP</p><h2>FEATURED PRODUCTS</h2></div>
+        <a href="#products" class="view-all">VIEW ALL →</a>
+      </div>
+      <div id="products" class="product-grid">
+        <article class="product-card" data-name="Empire Oversized T Shirt">
+          <div class="product-image"><span class="badge">NEW</span><button class="wishlist">♡</button><div class="product-placeholder">ATTITUDE</div><button class="quick-add" data-product="Empire Oversized T-Shirt" data-price="799">QUICK ADD</button></div>
+          <div class="product-info"><h3>Empire Oversized T-Shirt</h3><p>₹799</p></div>
+        </article>
+        <article class="product-card" data-name="Premium Logo Tee">
+          <div class="product-image"><button class="wishlist">♡</button><div class="product-placeholder">EMPIRE</div><button class="quick-add" data-product="Premium Logo Tee" data-price="899">QUICK ADD</button></div>
+          <div class="product-info"><h3>Premium Logo Tee</h3><p>₹899</p></div>
+        </article>
+        <article class="product-card" data-name="Empire Street Hoodie">
+          <div class="product-image"><span class="badge">BEST SELLER</span><button class="wishlist">♡</button><div class="product-placeholder">STREET</div><button class="quick-add" data-product="Empire Street Hoodie" data-price="1499">QUICK ADD</button></div>
+          <div class="product-info"><h3>Empire Street Hoodie</h3><p>₹1,499</p></div>
+        </article>
+        <article class="product-card" data-name="Essential Cargo Pants">
+          <div class="product-image"><button class="wishlist">♡</button><div class="product-placeholder">CARGO</div><button class="quick-add" data-product="Essential Cargo Pants" data-price="1299">QUICK ADD</button></div>
+          <div class="product-info"><h3>Essential Cargo Pants</h3><p>₹1,299</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="statement"><div><p class="eyebrow">ATTITUDE IS EVERYTHING</p><h2>YOUR STYLE.<br>YOUR RULES.</h2><a href="#shop" class="btn btn-light">SHOP THE COLLECTION</a></div></section>
+
+    <section class="section categories-section">
+      <div class="center-heading"><p class="eyebrow">EXPLORE</p><h2>SHOP BY CATEGORY</h2></div>
+      <div class="category-grid">
+        <a href="#shop" class="category-card"><div class="category-bg men"><span>MEN</span></div></a>
+        <a href="#shop" class="category-card"><div class="category-bg women"><span>WOMEN</span></div></a>
+        <a href="#shop" class="category-card"><div class="category-bg unisex"><span>UNISEX</span></div></a>
+      </div>
+    </section>
+
+    <section id="new" class="section new-arrivals">
+      <div class="center-heading"><p class="eyebrow">JUST DROPPED</p><h2>NEW ARRIVALS</h2><p>Fresh pieces. Limited quantities.</p></div>
+      <div class="new-arrival-box"><div><p class="eyebrow">DROP 01 / 2026</p><h2>BUILT TO<br>STAND OUT.</h2><p>Discover the latest ATTITUDE EMPIRE collection.</p><a href="#shop" class="btn btn-dark">SHOP NEW</a></div><div class="drop-number">01</div></div>
+    </section>
+
+    <section id="about" class="about"><div class="about-content"><p class="eyebrow">OUR STORY</p><h2>MORE THAN<br><span>CLOTHES.</span></h2><p>ATTITUDE EMPIRE was created for people who express themselves through what they wear.</p><p>We believe fashion isn't about fitting in. It's about creating your own identity.</p><a href="#contact" class="text-link">DISCOVER OUR STORY →</a></div></section>
+
+    <section class="section why-us">
+      <div class="center-heading"><p class="eyebrow">THE EMPIRE STANDARD</p><h2>WHY ATTITUDE EMPIRE?</h2></div>
+      <div class="features">
+        <div class="feature"><div>01</div><h3>PREMIUM QUALITY</h3><p>Carefully selected materials and quality-focused production.</p></div>
+        <div class="feature"><div>02</div><h3>BOLD DESIGN</h3><p>Designed for people who want to stand apart from the crowd.</p></div>
+        <div class="feature"><div>03</div><h3>SECURE PAYMENT</h3><p>Safe and reliable online checkout.</p></div>
+        <div class="feature"><div>04</div><h3>FAST DELIVERY</h3><p>Reliable shipping across India.</p></div>
+      </div>
+    </section>
+
+    <section class="newsletter"><p class="eyebrow">JOIN THE EMPIRE</p><h2>DON'T MISS<br>THE NEXT DROP.</h2><p>Get first access to new collections and exclusive offers.</p><form id="newsletterForm"><input type="email" placeholder="Enter your email" required><button type="submit">JOIN NOW</button></form></section>
+  </main>
+
+  <aside id="cartDrawer" class="cart-drawer">
+    <div class="cart-header"><h2>YOUR CART</h2><button id="closeCart">✕</button></div>
+    <div id="cartItems" class="cart-items"><p class="empty-cart">Your cart is empty.</p></div>
+    <div class="cart-footer"><div class="cart-total"><span>TOTAL</span><strong id="cartTotal">₹0</strong></div><button id="checkoutBtn" class="checkout-btn">PROCEED TO CHECKOUT</button></div>
+  </aside>
+  <div id="overlay" class="overlay"></div>
+
+  <footer id="contact">
+    <div class="footer-main">
+      <div class="footer-brand"><a href="#home" class="logo">ATTITUDE<span>EMPIRE</span></a><p>Wear your attitude.</p><div class="socials"><a href="#">Instagram</a><a href="#">Facebook</a></div></div>
+      <div class="footer-column"><h4>SHOP</h4><a href="#shop">All Products</a><a href="#shop">Men</a><a href="#shop">Women</a><a href="#shop">Unisex</a></div>
+      <div class="footer-column"><h4>HELP</h4><a href="#contact">Contact</a><a href="#">FAQ</a><a href="#">Shipping</a><a href="#">Returns</a></div>
+      <div class="footer-column"><h4>LEGAL</h4><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Refund Policy</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 ATTITUDE EMPIRE. ALL RIGHTS RESERVED.</p><p>MADE FOR THE BOLD.</p></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
