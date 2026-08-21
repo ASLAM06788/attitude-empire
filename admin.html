@@ -1,1 +1,87 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="noindex,nofollow"><title>Order Manager | ATTITUDE EMPIRE</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="admin.css"></head><body><header><a href="index.html" class="brand"><img src="assets/attitude-empire-logo.png" alt=""><span><strong>ATTITUDE</strong> EMPIRE</span></a><div><small>STORE OPERATIONS</small><strong>ORDER MANAGER</strong></div></header><main><section class="intro"><p>ATTITUDE EMPIRE / OPERATIONS</p><h1>ORDER<br>MANAGEMENT.</h1><p class="sub">Track COD orders saved on this browser, update fulfilment status, search customers and export your records.</p></section><section class="stats"><article><span>TOTAL ORDERS</span><strong id="statOrders">0</strong></article><article><span>REVENUE</span><strong id="statRevenue">₹0</strong></article><article><span>NEW / CONFIRM</span><strong id="statNew">0</strong></article><article><span>DELIVERED</span><strong id="statDelivered">0</strong></article></section><section class="toolbar"><input id="search" type="search" placeholder="Search order ID, customer or phone"><select id="statusFilter"><option value="all">ALL STATUSES</option><option>New</option><option>Confirmed</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select><button id="exportBtn">EXPORT CSV</button></section><section><div id="empty" class="empty">No orders are stored on this browser yet.</div><div id="orders" class="orders"></div></section></main><div id="detailModal" class="modal"><div class="modal-card"><button id="closeModal" class="close">✕</button><div id="detail"></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="admin.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Order Manager | ATTITUDE EMPIRE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="index.html" class="brand">
+      <img src="assets/attitude-empire-logo.png" alt="ATTITUDE EMPIRE">
+      <span><strong>ATTITUDE</strong> EMPIRE</span>
+    </a>
+    <div class="header-meta">
+      <span class="live-badge"><i></i> LIVE DATABASE</span>
+      <small>STORE OPERATIONS</small>
+      <strong>ORDER MANAGER</strong>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div>
+        <p class="eyebrow">ATTITUDE EMPIRE / OPERATIONS</p>
+        <h1>ORDER<br>MANAGEMENT.</h1>
+        <p class="sub">Manage live Supabase orders, customer details, fulfilment status, payments and exports from one secure dashboard.</p>
+      </div>
+      <div class="sync-card">
+        <span>DATABASE STATUS</span>
+        <strong>CONNECTED</strong>
+        <small id="lastSync">Waiting for sync…</small>
+      </div>
+    </section>
+
+    <section class="stats">
+      <article><span>TOTAL ORDERS</span><strong id="statOrders">0</strong><small>All received orders</small></article>
+      <article><span>ORDER VALUE</span><strong id="statRevenue">₹0</strong><small>Excludes cancelled</small></article>
+      <article><span>NEW / CONFIRMED</span><strong id="statNew">0</strong><small>Needs attention</small></article>
+      <article><span>SHIPPED</span><strong id="statShipped">0</strong><small>In transit</small></article>
+      <article><span>DELIVERED</span><strong id="statDelivered">0</strong><small>Completed orders</small></article>
+    </section>
+
+    <section class="toolbar">
+      <div class="search-wrap">
+        <span>⌕</span>
+        <input id="search" type="search" placeholder="Search order ID, customer, phone or email">
+      </div>
+      <select id="statusFilter">
+        <option value="all">ALL STATUSES</option>
+        <option>New</option>
+        <option>Confirmed</option>
+        <option>Packed</option>
+        <option>Shipped</option>
+        <option>Delivered</option>
+        <option>Cancelled</option>
+      </select>
+      <button id="refreshBtn" class="secondary-btn">REFRESH</button>
+      <button id="exportBtn">EXPORT CSV</button>
+    </section>
+
+    <section>
+      <div class="table-head">
+        <span>ORDER</span><span>CUSTOMER</span><span>PAYMENT</span><span>TOTAL</span><span>STATUS</span><span></span>
+      </div>
+      <div id="empty" class="empty">Loading orders…</div>
+      <div id="orders" class="orders"></div>
+    </section>
+  </main>
+
+  <div id="detailModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button id="closeModal" class="close" aria-label="Close order details">✕</button>
+      <div id="detail"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
