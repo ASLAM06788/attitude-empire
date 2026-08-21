@@ -399,13 +399,15 @@ function openInventoryEditor(item = null) {
   inventoryModal.classList.add('active');
   inventoryModal.setAttribute('aria-hidden', 'false');
 }
- {
+ function closeInventoryEditor() {
   inventoryModal.classList.remove('active');
 
   inventoryModal.setAttribute(
     'aria-hidden',
     'true'
   );
+
+  $('inventoryCode').disabled = false;
 }
 
 $('addInventoryBtn').onclick = () => {
