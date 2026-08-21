@@ -126,3 +126,409 @@ async function startAdmin(){
 }
 
 startAdmin();
+/* ================================
+   INVENTORY MANAGEMENT
+================================ */
+
+let inventory = [];
+
+const ordersTab = $('ordersTab');
+const inventoryTab = $('inventoryTab');
+const ordersPanel = $('ordersPanel');
+const inventoryPanel = $('inventoryPanel');
+
+const inventoryList = $('inventoryList');
+const inventoryEmpty = $('inventoryEmpty');
+const inventoryModal = $('inventoryModal');
+
+function inventoryStatus(item) {
+  const stock = Number(item.stock || 0);
+  const limit = Number(item.low_stock_limit || 0);
+
+  if (stock <= 0) {
+    return {
+      label: 'OUT OF STOCK',
+      type: 'out'
+    };
+  }
+
+  if (stock <= limit) {
+    return {
+      label: 'LOW STOCK',
+      type: 'low'
+    };
+  }
+
+  return {
+    label: 'AVAILABLE',
+    type: 'available'
+  };
+}
+
+function switchAdminPanel(panel) {
+  const isOrders = panel === 'orders';
+
+  ordersTab.classList.toggle('active', isOrders);
+  inventoryTab.classList.toggle('active', !isOrders);
+
+  ordersPanel.classList.toggle('active', isOrders);
+  inventoryPanel.classList.toggle('active', !isOrders);
+
+  if (!isOrders) {
+    loadInventory();
+  }
+}
+
+ordersTab.onclick = () => {
+  switchAdminPanel('orders');
+};
+
+inventoryTab.onclick = () => {
+  switchAdminPanel('inventory');
+};
+
+async function loadInventory() {
+  inventoryEmpty.style.display = 'block';
+  inventoryEmpty.textContent = 'Loading inventory…';
+  inventoryList.innerHTML = '';
+
+  const refresh = $('inventoryRefresh');
+
+  if (refresh) {
+    refresh.disabled = true;
+    refresh.textContent = 'SYNCING…';
+  }
+
+  const { data, error } = await db
+    .from('inventory')
+    .select('*')
+    .order('product_code', { ascending: true })
+    .order('size', { ascending: true });
+
+  if (refresh) {
+    refresh.disabled = false;
+    refresh.textContent = 'REFRESH';
+  }
+
+  if (error) {
+    console.error('Inventory load error:', error);
+
+    inventoryEmpty.textContent =
+      'Unable to load inventory. Please check Supabase permissions.';
+
+    return;
+  }
+
+  inventory = data || [];
+
+  renderInventory();
+}
+
+function inventoryStats() {
+  const totalStock = inventory.reduce(
+    (sum, item) => sum + Number(item.stock || 0),
+    0
+  );
+
+  const lowStock = inventory.filter(item => {
+    const stock = Number(item.stock || 0);
+    const limit = Number(item.low_stock_limit || 0);
+
+    return stock > 0 && stock <= limit;
+  }).length;
+
+  const outOfStock = inventory.filter(
+    item => Number(item.stock || 0) <= 0
+  ).length;
+
+  $('inventoryVariants').textContent = inventory.length;
+  $('inventoryStock').textContent = totalStock;
+  $('inventoryLow').textContent = lowStock;
+  $('inventoryOut').textContent = outOfStock;
+}
+
+function renderInventory() {
+  inventoryStats();
+
+  const query = $('inventorySearch')
+    .value
+    .trim()
+    .toLowerCase();
+
+  const filter = $('inventoryFilter').value;
+
+  const shown = inventory.filter(item => {
+    const status = inventoryStatus(item);
+
+    const haystack = [
+      item.product_code,
+      item.product_name,
+      item.category,
+      item.size
+    ]
+      .join(' ')
+      .toLowerCase();
+
+    const matchesSearch = haystack.includes(query);
+
+    const matchesFilter =
+      filter === 'all' ||
+      status.type === filter;
+
+    return matchesSearch && matchesFilter;
+  });
+
+  inventoryList.innerHTML = '';
+
+  inventoryEmpty.style.display =
+    shown.length ? 'none' : 'block';
+
+  if (!shown.length) {
+    inventoryEmpty.textContent =
+      inventory.length
+        ? 'No inventory matches your current search or filter.'
+        : 'No inventory records yet. Add your first product / size.';
+  }
+
+  shown.forEach(item => {
+    const status = inventoryStatus(item);
+
+    const row = document.createElement('article');
+
+    row.className = 'inventory-row';
+
+    row.innerHTML = `
+      <div>
+        <small>${esc(item.product_code)}</small>
+        <strong>${esc(item.product_name)}</strong>
+      </div>
+
+      <div>
+        <small>SIZE</small>
+        <strong>${esc(item.size)}</strong>
+      </div>
+
+      <div>
+        <small>PRICE</small>
+        <strong>${money(item.selling_price)}</strong>
+      </div>
+
+      <div>
+        <small>UNITS</small>
+        <strong class="inventory-stock">
+          ${Number(item.stock || 0)}
+        </strong>
+      </div>
+
+      <div>
+        <span class="stock-status ${status.type}">
+          ${status.label}
+        </span>
+      </div>
+
+      <button
+        class="inventory-edit-btn"
+        type="button"
+      >
+        EDIT
+      </button>
+    `;
+
+    row.querySelector('.inventory-edit-btn').onclick =
+      () => openInventoryEditor(item);
+
+    inventoryList.appendChild(row);
+  });
+}
+
+function openInventoryEditor(item = null) {
+  $('inventoryForm').reset();
+
+  $('inventoryId').value = '';
+  $('inventoryPrice').value = 0;
+  $('inventoryQuantity').value = 0;
+  $('inventoryLowLimit').value = 3;
+
+  if (item) {
+    $('inventoryModalTitle').textContent =
+      'EDIT INVENTORY';
+
+    $('inventoryId').value = item.id;
+
+    $('inventoryCode').value =
+      item.product_code || '';
+
+    $('inventoryName').value =
+      item.product_name || '';
+
+    $('inventoryCategory').value =
+      item.category || '';
+
+    $('inventorySize').value =
+      item.size || '';
+
+    $('inventoryPrice').value =
+      Number(item.selling_price || 0);
+
+    $('inventoryQuantity').value =
+      Number(item.stock || 0);
+
+    $('inventoryLowLimit').value =
+      Number(item.low_stock_limit || 3);
+  } else {
+    $('inventoryModalTitle').textContent =
+      'ADD INVENTORY';
+  }
+
+  inventoryModal.classList.add('active');
+  inventoryModal.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+}
+
+function closeInventoryEditor() {
+  inventoryModal.classList.remove('active');
+
+  inventoryModal.setAttribute(
+    'aria-hidden',
+    'true'
+  );
+}
+
+$('addInventoryBtn').onclick = () => {
+  openInventoryEditor();
+};
+
+$('closeInventoryModal').onclick = () => {
+  closeInventoryEditor();
+};
+
+inventoryModal.onclick = event => {
+  if (event.target === inventoryModal) {
+    closeInventoryEditor();
+  }
+};
+
+$('inventorySearch').oninput = () => {
+  renderInventory();
+};
+
+$('inventoryFilter').onchange = () => {
+  renderInventory();
+};
+
+$('inventoryRefresh').onclick = () => {
+  loadInventory();
+};
+
+$('inventoryForm').addEventListener(
+  'submit',
+  async event => {
+    event.preventDefault();
+
+    const id = $('inventoryId').value;
+
+    const payload = {
+      product_code:
+        $('inventoryCode')
+          .value
+          .trim()
+          .toUpperCase(),
+
+      product_name:
+        $('inventoryName')
+          .value
+          .trim(),
+
+      category:
+        $('inventoryCategory')
+          .value
+          .trim() || null,
+
+      size:
+        $('inventorySize')
+          .value
+          .trim()
+          .toUpperCase(),
+
+      selling_price:
+        Number(
+          $('inventoryPrice').value || 0
+        ),
+
+      stock:
+        Number(
+          $('inventoryQuantity').value || 0
+        ),
+
+      low_stock_limit:
+        Number(
+          $('inventoryLowLimit').value || 0
+        ),
+
+      active: true,
+
+      updated_at:
+        new Date().toISOString()
+    };
+
+    const saveButton =
+      document.querySelector(
+        '.inventory-save-btn'
+      );
+
+    saveButton.disabled = true;
+    saveButton.textContent = 'SAVING…';
+
+    let result;
+
+    if (id) {
+      result = await db
+        .from('inventory')
+        .update(payload)
+        .eq('id', id);
+    } else {
+      result = await db
+        .from('inventory')
+        .insert(payload);
+    }
+
+    saveButton.disabled = false;
+    saveButton.textContent =
+      'SAVE INVENTORY';
+
+    if (result.error) {
+      console.error(
+        'Inventory save error:',
+        result.error
+      );
+
+      if (
+        String(result.error.message)
+          .toLowerCase()
+          .includes('duplicate')
+      ) {
+        alert(
+          'This product code and size already exist. Edit the existing inventory record instead.'
+        );
+      } else {
+        alert(
+          'Could not save inventory. Please try again.'
+        );
+      }
+
+      return;
+    }
+
+    closeInventoryEditor();
+
+    toast(
+      id
+        ? 'Inventory updated'
+        : 'Inventory added'
+    );
+
+    await loadInventory();
+  }
+);
