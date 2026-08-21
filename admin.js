@@ -340,54 +340,66 @@ function renderInventory() {
     inventoryList.appendChild(row);
   });
 }
-
 function openInventoryEditor(item = null) {
   $('inventoryForm').reset();
 
   $('inventoryId').value = '';
   $('inventoryPrice').value = 0;
-  $('inventoryQuantity').value = 0;
   $('inventoryLowLimit').value = 3;
 
+  $('stockS').value = 0;
+  $('stockM').value = 0;
+  $('stockL').value = 0;
+  $('stockXL').value = 0;
+
+  $('inventoryCode').disabled = false;
+
   if (item) {
-    $('inventoryModalTitle').textContent =
-      'EDIT INVENTORY';
+    $('inventoryModalTitle').textContent = 'EDIT PRODUCT INVENTORY';
 
-    $('inventoryId').value = item.id;
+    $('inventoryId').value = item.product_code;
 
-    $('inventoryCode').value =
-      item.product_code || '';
+    $('inventoryCode').value = item.product_code || '';
+    $('inventoryCode').disabled = true;
 
-    $('inventoryName').value =
-      item.product_name || '';
+    $('inventoryName').value = item.product_name || '';
+    $('inventoryCategory').value = item.category || '';
+    $('inventoryPrice').value = Number(item.selling_price || 0);
+    $('inventoryLowLimit').value = Number(item.low_stock_limit || 3);
 
-    $('inventoryCategory').value =
-      item.category || '';
+    const s = inventory.find(x =>
+      x.product_code === item.product_code &&
+      String(x.size).toUpperCase() === 'S'
+    );
 
-    $('inventorySize').value =
-      item.size || '';
+    const m = inventory.find(x =>
+      x.product_code === item.product_code &&
+      String(x.size).toUpperCase() === 'M'
+    );
 
-    $('inventoryPrice').value =
-      Number(item.selling_price || 0);
+    const l = inventory.find(x =>
+      x.product_code === item.product_code &&
+      String(x.size).toUpperCase() === 'L'
+    );
 
-    $('inventoryQuantity').value =
-      Number(item.stock || 0);
+    const xl = inventory.find(x =>
+      x.product_code === item.product_code &&
+      String(x.size).toUpperCase() === 'XL'
+    );
 
-    $('inventoryLowLimit').value =
-      Number(item.low_stock_limit || 3);
+    $('stockS').value = Number(s?.stock || 0);
+    $('stockM').value = Number(m?.stock || 0);
+    $('stockL').value = Number(l?.stock || 0);
+    $('stockXL').value = Number(xl?.stock || 0);
+
   } else {
-    $('inventoryModalTitle').textContent =
-      'ADD INVENTORY';
+    $('inventoryModalTitle').textContent = 'ADD PRODUCT';
   }
 
   inventoryModal.classList.add('active');
-  inventoryModal.setAttribute(
-    'aria-hidden',
-    'false'
-  );
+  inventoryModal.setAttribute('aria-hidden', 'false');
 }
-
-function closeInventoryEditor() {
+ {
   inventoryModal.classList.remove('active');
 
   inventoryModal.setAttribute(
@@ -427,106 +439,143 @@ $('inventoryForm').addEventListener(
   async event => {
     event.preventDefault();
 
-    const id = $('inventoryId').value;
+    const isEditing = Boolean($('inventoryId').value);
 
-    const payload = {
-      product_code:
-        $('inventoryCode')
-          .value
-          .trim()
-          .toUpperCase(),
+    const productCode = $('inventoryCode')
+      .value
+      .trim()
+      .toUpperCase();
 
-      product_name:
-        $('inventoryName')
-          .value
-          .trim(),
+    const productName = $('inventoryName')
+      .value
+      .trim();
 
-      category:
-        $('inventoryCategory')
-          .value
-          .trim() || null,
+    const category =
+      $('inventoryCategory').value.trim() || null;
 
-      size:
-        $('inventorySize')
-          .value
-          .trim()
-          .toUpperCase(),
+    const sellingPrice =
+      Number($('inventoryPrice').value || 0);
 
-      selling_price:
-        Number(
-          $('inventoryPrice').value || 0
-        ),
+    const lowStockLimit =
+      Number($('inventoryLowLimit').value || 0);
 
-      stock:
-        Number(
-          $('inventoryQuantity').value || 0
-        ),
+    const sizes = [
+      {
+        size: 'S',
+        stock: Number($('stockS').value || 0)
+      },
+      {
+        size: 'M',
+        stock: Number($('stockM').value || 0)
+      },
+      {
+        size: 'L',
+        stock: Number($('stockL').value || 0)
+      },
+      {
+        size: 'XL',
+        stock: Number($('stockXL').value || 0)
+      }
+    ];
 
-      low_stock_limit:
-        Number(
-          $('inventoryLowLimit').value || 0
-        ),
-
-      active: true,
-
-      updated_at:
-        new Date().toISOString()
-    };
-
-    const saveButton =
-      document.querySelector(
-        '.inventory-save-btn'
-      );
-
-    saveButton.disabled = true;
-    saveButton.textContent = 'SAVING…';
-
-    let result;
-
-    if (id) {
-      result = await db
-        .from('inventory')
-        .update(payload)
-        .eq('id', id);
-    } else {
-      result = await db
-        .from('inventory')
-        .insert(payload);
+    if (!productCode) {
+      alert('Please enter a product code.');
+      return;
     }
 
-    saveButton.disabled = false;
-    saveButton.textContent =
-      'SAVE INVENTORY';
+    if (!productName) {
+      alert('Please enter a product name.');
+      return;
+    }
 
-    if (result.error) {
+    const saveButton =
+      document.querySelector('.inventory-save-btn');
+
+    saveButton.disabled = true;
+    saveButton.textContent = 'SAVING PRODUCT…';
+
+    const now = new Date().toISOString();
+
+    const rows = sizes.map(item => ({
+      product_code: productCode,
+      product_name: productName,
+      category: category,
+      size: item.size,
+      selling_price: sellingPrice,
+      stock: item.stock,
+      low_stock_limit: lowStockLimit,
+      active: true,
+      updated_at: now
+    }));
+
+    const { error } = await db
+      .from('inventory')
+      .upsert(rows, {
+        onConflict: 'product_code,size'
+      });
+
+    if (error) {
       console.error(
         'Inventory save error:',
-        result.error
+        error
       );
 
-      if (
-        String(result.error.message)
-          .toLowerCase()
-          .includes('duplicate')
-      ) {
-        alert(
-          'This product code and size already exist. Edit the existing inventory record instead.'
-        );
-      } else {
-        alert(
-          'Could not save inventory. Please try again.'
-        );
-      }
+      saveButton.disabled = false;
+      saveButton.textContent = 'SAVE INVENTORY';
+
+      alert(
+        'Could not save product inventory. Please try again.'
+      );
 
       return;
     }
 
+    /*
+      Remove any old incorrect combined-size record
+      such as "S / M / L / XL".
+    */
+
+    const { data: productRows, error: readError } =
+      await db
+        .from('inventory')
+        .select('id,size')
+        .eq('product_code', productCode);
+
+    if (!readError && productRows) {
+      const validSizes = ['S', 'M', 'L', 'XL'];
+
+      const badIds = productRows
+        .filter(row =>
+          !validSizes.includes(
+            String(row.size || '').toUpperCase()
+          )
+        )
+        .map(row => row.id);
+
+      if (badIds.length) {
+        const { error: deleteError } = await db
+          .from('inventory')
+          .delete()
+          .in('id', badIds);
+
+        if (deleteError) {
+          console.warn(
+            'Old inventory cleanup failed:',
+            deleteError
+          );
+        }
+      }
+    }
+
+    saveButton.disabled = false;
+    saveButton.textContent = 'SAVE INVENTORY';
+
     closeInventoryEditor();
 
     toast(
-      id
-        ? 'Inventory updated'
-        : 'Inventory added'
+      isEditing
+        ? 'Product inventory updated'
+        : 'Product inventory added'
     );
 
     await loadInventory();
