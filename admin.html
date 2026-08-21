@@ -24,6 +24,11 @@
   </header>
 
   <main>
+    <nav class="admin-tabs">
+  <button class="admin-tab active" id="ordersTab" type="button">ORDERS</button>
+  <button class="admin-tab" id="inventoryTab" type="button">INVENTORY</button>
+    </nav>
+    <div id="ordersPanel" class="admin-panel active">
     <section class="intro">
       <div>
         <p class="eyebrow">ATTITUDE EMPIRE / OPERATIONS</p>
@@ -71,6 +76,196 @@
       <div id="orders" class="orders"></div>
     </section>
   </main>
+  </div>
+
+<div id="inventoryPanel" class="admin-panel">
+
+  <section class="inventory-intro">
+    <div>
+      <p class="eyebrow">ATTITUDE EMPIRE / INVENTORY</p>
+      <h1>STOCK<br>MANAGEMENT.</h1>
+      <p class="sub">
+        Manage product sizes, stock quantities, selling prices and low-stock alerts from the live Supabase inventory database.
+      </p>
+    </div>
+
+    <button id="addInventoryBtn" class="inventory-add-btn" type="button">
+      + ADD PRODUCT / SIZE
+    </button>
+  </section>
+
+  <section class="inventory-stats">
+    <article>
+      <span>TOTAL VARIANTS</span>
+      <strong id="inventoryVariants">0</strong>
+      <small>Product + size combinations</small>
+    </article>
+
+    <article>
+      <span>TOTAL STOCK</span>
+      <strong id="inventoryStock">0</strong>
+      <small>Units available</small>
+    </article>
+
+    <article>
+      <span>LOW STOCK</span>
+      <strong id="inventoryLow">0</strong>
+      <small>Needs restocking</small>
+    </article>
+
+    <article>
+      <span>OUT OF STOCK</span>
+      <strong id="inventoryOut">0</strong>
+      <small>Unavailable variants</small>
+    </article>
+  </section>
+
+  <section class="inventory-toolbar">
+    <input
+      id="inventorySearch"
+      type="search"
+      placeholder="Search product code, product name or size"
+    >
+
+    <select id="inventoryFilter">
+      <option value="all">ALL STOCK</option>
+      <option value="available">AVAILABLE</option>
+      <option value="low">LOW STOCK</option>
+      <option value="out">OUT OF STOCK</option>
+    </select>
+
+    <button id="inventoryRefresh" type="button">
+      REFRESH
+    </button>
+  </section>
+
+  <section class="inventory-list-section">
+
+    <div class="inventory-head">
+      <span>PRODUCT</span>
+      <span>SIZE</span>
+      <span>PRICE</span>
+      <span>STOCK</span>
+      <span>STATUS</span>
+      <span></span>
+    </div>
+
+    <div id="inventoryEmpty" class="empty">
+      No inventory records yet. Add your first product / size.
+    </div>
+
+    <div id="inventoryList" class="inventory-list"></div>
+
+  </section>
+
+</div>
+
+<div id="inventoryModal" class="modal" aria-hidden="true">
+  <div class="modal-card inventory-modal-card">
+
+    <button
+      id="closeInventoryModal"
+      class="close"
+      type="button"
+      aria-label="Close inventory editor"
+    >
+      ✕
+    </button>
+
+    <p class="eyebrow">ATTITUDE EMPIRE / INVENTORY</p>
+    <h2 id="inventoryModalTitle">ADD INVENTORY</h2>
+
+    <form id="inventoryForm">
+
+      <input type="hidden" id="inventoryId">
+
+      <div class="inventory-form-grid">
+
+        <label>
+          PRODUCT CODE
+          <input
+            id="inventoryCode"
+            type="text"
+            placeholder="AE-M001"
+            required
+          >
+        </label>
+
+        <label>
+          SIZE
+          <input
+            id="inventorySize"
+            type="text"
+            placeholder="S / M / L / XL"
+            required
+          >
+        </label>
+
+        <label class="full">
+          PRODUCT NAME
+          <input
+            id="inventoryName"
+            type="text"
+            placeholder="Urban Wolf Oversized Tee"
+            required
+          >
+        </label>
+
+        <label>
+          CATEGORY
+          <input
+            id="inventoryCategory"
+            type="text"
+            placeholder="Men"
+          >
+        </label>
+
+        <label>
+          SELLING PRICE
+          <input
+            id="inventoryPrice"
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            required
+          >
+        </label>
+
+        <label>
+          STOCK QUANTITY
+          <input
+            id="inventoryQuantity"
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            required
+          >
+        </label>
+
+        <label>
+          LOW STOCK ALERT
+          <input
+            id="inventoryLowLimit"
+            type="number"
+            min="0"
+            step="1"
+            value="3"
+            required
+          >
+        </label>
+
+      </div>
+
+      <button class="inventory-save-btn" type="submit">
+        SAVE INVENTORY
+      </button>
+
+    </form>
+
+  </div>
+</div>
 
   <div id="detailModal" class="modal" aria-hidden="true">
     <div class="modal-card">
